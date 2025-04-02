@@ -1,16 +1,24 @@
 
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import TodoItem from './TodoItem';
 import Button from './Button';
 import css from './App.module.css'
 import clsx from 'clsx';
 
-function App() {
+const App = () =>  {
 
 const [task, setTask] = useState('');
-const [todos, setTodos] = useState([])
+const [todos, setTodos] = useState(() => {
+  
+  return JSON.parse(localStorage.getItem('todos')) ?? [];
+  
+})
+
+useEffect(() => {
+  localStorage.setItem('todos', JSON.stringify(todos))
+}, [todos])
 
 const handleAddClick = () => {
   setTodos([...todos, {
